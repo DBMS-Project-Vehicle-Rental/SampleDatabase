@@ -1,0 +1,44 @@
+mysql> create database PROJECT;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use PROJECT;
+Database changed
+
+mysql> create table Vehicle (Plate_No varchar(10), Type varchar(4), primary key(Plate_No));
+Query OK, 0 rows affected (0.66 sec)
+
+mysql> create table CarDetails (Plate_No varchar(10), Company varchar(20), Model varchar(20), Color varchar(10), Type varchar(10), Seats int, primary key(Plate_No), foreign key(Plate_No) references Vehicle(Plate_No) on delete cascade on update cascade);
+Query OK, 0 rows affected (0.27 sec)
+
+mysql> create table BikeDetails (Plate_No varchar(10), Company varchar(20), Model varchar(20), Color varchar(10), Type varchar(10), primary key(Plate_No), foreign key(Plate_No) references Vehicle(Plate_No) on delete cascade on update cascade);
+Query OK, 0 rows affected (0.72 sec)
+
+mysql> create table User (User_ID varchar(20), Name varchar(20), Email_ID varchar(30), Phone_No bigint, Address varchar(50), Password varchar(20), primary key(User_ID));
+Query OK, 0 rows affected (0.68 sec)
+
+mysql> create table Booking (User_ID varchar(20), Plate_No varchar(10), Book_ID varchar(10), Pay_ID varchar(10), Book_Date date, No_of_Days int, primary key(Book_ID), foreign key(Plate_No) references Vehicle(Plate_No) on delete cascade on update cascade);
+Query OK, 0 rows affected (0.78 sec)
+
+mysql> create table Payment (Pay_ID varchar(10), User_ID varchar(20), Pay_Date date, Amount int, Type varchar(10), primary key(Pay_ID), foreign key(User_ID) references User(User_ID) on delete cascade on update cascade);
+Query OK, 0 rows affected (0.70 sec)
+
+mysql> create table Garage (G_ID varchar(10), G_Name varchar(20), Location varchar(20), Book_ID varchar(10), primary key(G_ID), foreign key(Book_ID) references Booking(Book_ID) on update cascade on delete cascade);
+Query OK, 0 rows affected (0.74 sec)
+
+mysql> create table Employee (Emp_ID varchar(10), Emp_Name varchar(20), Email_ID varchar(30), Phone_No bigint, Password varchar(20), G_ID varchar(10), primary key(Emp_ID), foreign key(G_ID) references Garage(G_ID) on delete cascade on update cascade);
+Query OK, 0 rows affected (0.69 sec)
+
+mysql> insert into Vehicle values ("KA08SK9283", "Car"), ("KA05DE6587", "Bike");
+Query OK, 2 rows affected (0.16 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> insert into CarDetails values ("KA08SK9283", "Hennessey", "Venom GT", "Black", "Sports", 4);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into BikeDetails values ("KA05DE6587", "Kawasaki", "Ninja H2R", "Green", "Sports");
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into User values ("ABC123", "User1", "user1@email.com", 9875546254, "Random_Location_1", "best_password_1"), ("DEF456", "User2", "user2@email.com", 874552669, "Random_Location_2", "best_password_2");
+Query OK, 2 rows affected (0.17 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
