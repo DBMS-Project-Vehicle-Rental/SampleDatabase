@@ -1,0 +1,26 @@
+mysql> CREATE DATABASE VEHICLE_RENTAL;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> USE VEHICLE_RENTAL;
+Database changed
+
+mysql> CREATE TABLE Vehicles (Model_Name VARCHAR(20) PRIMARY KEY, Company VARCHAR(20), V_Type VARCHAR(4), Type VARCHAR(10), Seats INT, Quantity INT);
+Query OK, 0 rows affected (0.62 sec)
+
+mysql> CREATE TABLE Garage (G_ID VARCHAR(10) PRIMARY KEY, G_Name VARCHAR(20), LOCATION VARCHAR(20));
+Query OK, 0 rows affected (0.27 sec)
+
+mysql> CREATE TABLE User (User_ID VARCHAR(20) PRIMARY KEY, Name VARCHAR(20), Email VARCHAR(20), Phone_No BIGINT, Address VARCHAR(20), Password VARCHAR(20));
+Query OK, 0 rows affected (0.31 sec)
+
+mysql> CREATE TABLE Employee (User_ID VARCHAR(20) PRIMARY KEY, Name VARCHAR(20), Email VARCHAR(20), Phone_No BIGINT, Address VARCHAR(20), Password VARCHAR(20), G_ID VARCHAR(10), FOREIGN KEY (G_ID) REFERENCES Garage (G_ID) ON DELETE SET NULL ON UPDATE CASCADE);
+Query OK, 0 rows affected (0.40 sec)
+
+mysql> CREATE TABLE VehicleDetails (Plate_No VARCHAR(10) PRIMARY KEY, Model_Name VARCHAR(20), Color VARCHAR(10), G_ID VARCHAR(10), FOREIGN KEY (Model_Name) REFERENCES Vehicles (Model_Name) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (G_ID) REFERENCES Garage (G_ID) ON DELETE CASCADE ON UPDATE CASCADE);
+Query OK, 0 rows affected (0.34 sec)
+
+mysql> CREATE TABLE Booking (Book_ID VARCHAR(10) PRIMARY KEY, User_ID VARCHAR(20), Plate_No VARCHAR(10), Book_Date DATE, No_of_Days INT, FOREIGN KEY (User_ID) REFERENCES User (User_ID) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (Plate_No) REFERENCES VehicleDetails (Plate_No) ON DELETE CASCADE ON UPDATE CASCADE);
+Query OK, 0 rows affected (0.52 sec)
+
+mysql> CREATE TABLE Payment (Pay_ID VARCHAR(10) PRIMARY KEY, User_ID VARCHAR(20), Book_ID VARCHAR(10), Pay_Date DATE, Amount INT, Method VARCHAR(10), Success BOOL, FOREIGN KEY (User_ID) REFERENCES User (User_ID) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (Book_ID) REFERENCES Booking (Book_ID) ON DELETE CASCADE ON UPDATE CASCADE);
+Query OK, 0 rows affected (0.59 sec)
