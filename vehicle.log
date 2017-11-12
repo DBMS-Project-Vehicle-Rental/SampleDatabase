@@ -7,7 +7,7 @@ Database changed
 mysql> CREATE TABLE Vehicles (Model_Name VARCHAR(20) PRIMARY KEY, Company VARCHAR(20), V_Type VARCHAR(4), Type VARCHAR(10), Seats INT, Quantity INT);
 Query OK, 0 rows affected (0.62 sec)
 
-mysql> CREATE TABLE Garage (G_ID VARCHAR(10) PRIMARY KEY, G_Name VARCHAR(20), LOCATION VARCHAR(20));
+mysql> CREATE TABLE Garage (G_ID VARCHAR(10) PRIMARY KEY, G_Name VARCHAR(20), Location VARCHAR(20));
 Query OK, 0 rows affected (0.27 sec)
 
 mysql> CREATE TABLE User (User_ID VARCHAR(20) PRIMARY KEY, Name VARCHAR(20), Email VARCHAR(20), Phone_No BIGINT, Address VARCHAR(20), Password VARCHAR(20));
@@ -24,3 +24,193 @@ Query OK, 0 rows affected (0.52 sec)
 
 mysql> CREATE TABLE Payment (Pay_ID VARCHAR(10) PRIMARY KEY, User_ID VARCHAR(20), Book_ID VARCHAR(10), Pay_Date DATE, Amount INT, Method VARCHAR(10), Success BOOL, FOREIGN KEY (User_ID) REFERENCES User (User_ID) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (Book_ID) REFERENCES Booking (Book_ID) ON DELETE CASCADE ON UPDATE CASCADE);
 Query OK, 0 rows affected (0.59 sec)
+mysql> insert into Vehicles values
+    -> ("Swift", "Maruti Suzuki", "Car", "Hatchback", 4, 5),
+    -> ("Grand i10", "Hyundai", "Car", "Hatchback", 4, 3),
+    -> ("Scorpio", "Mahindra", "Car", "SUV", 8, 4),
+    -> ("Pulsar 150", "Bajaj", "Bike", "Standard", 2, 5),
+    -> ("Classic 500", "Royal Enfield", "Bike", "Cruiser", 1, 2);
+Query OK, 5 rows affected (0.10 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> insert into Garage values
+    -> ("BANMAR0001", "Marathalli Garage", "Marathalli"),
+    -> ("BANKOR0002", "Kormangala Garage", "Kormangala");
+Query OK, 2 rows affected (0.06 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> insert into User values
+    -> ("ayush", "Ayush Agarawal", "ayush@email.com", 9875425632, "Kormangala", "ayushkapassword"),
+    -> ("devansh", "Devansh Sharma", "devansh@email.com", 9875546322, "Bellandur", "devanshkapassword");
+Query OK, 2 rows affected (0.33 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> insert into Employee values
+    -> ("emp01", "Ram", "ram@email.com", 8754863254, "Jaynagar", "ramkapassword", "BANKOR0002"),
+    -> ("emp02", "Shyam", "shyam@email.com", 7854896532, "KR Puram", "shyamkapassword", "BANMAR0001");
+Query OK, 2 rows affected (0.23 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> update Vehicles set Quantity = 2 where Model_Name = "Swift";
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Vehicles set Quantity = 1 where Model_Name = "Grand i10";
+Query OK, 1 row affected (0.42 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Vehicles set Quantity = 1 where Model_Name = "Scorpio";
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Vehicles set Quantity = 2 where Model_Name = "Pulsar 150";
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Vehicles set Quantity = 0 where Model_Name = "Classic 500";
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> insert into VehicleDetails values
+    -> ("KA05MJ5795", "Swift", "Blue", "BANMAR0001"),
+    -> ("KA03NH2546", "Swift", "Red", "BANMAR0001"),
+    -> ("KA04MK2566", "Grand i10", "Grey", "BANKOR0002"),
+    -> ("KA05LK6986", "Scorpio", "Black", "BANMAR0001"),
+    -> ("KA03FG4578", "Pulsar 150", "Silver", "BANKOR0002"),
+    -> ("KA04ML6822", "Pulsar 150", "Blue", "BANKOR0002");
+Query OK, 6 rows affected (0.40 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> alter table User add Wallet int;
+Query OK, 0 rows affected (0.80 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> update User set Wallet = 3000 where User_ID = "Ayush";
+Query OK, 1 row affected (0.19 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update User set Wallet = 5000 where User_ID = "Devansh";
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> alter table Vehicles add Cost int;
+Query OK, 0 rows affected (0.80 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> update Vehicles set Cost = 2500 where Model_Name = "Classic 500";
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Vehicles set Cost = 4500 where Model_Name = "Grand i10";
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Vehicles set Cost = 1500 where Model_Name = "Pulsar 150";
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Vehicles set Cost = 6000 where Model_Name = "Scorpio";
+Query OK, 1 row affected (0.07 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update Vehicles set Cost = 4000 where Model_Name = "Swift";
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> alter table Booking change Book_Date Start_Date date;
+Query OK, 0 rows affected (0.37 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table Booking add End_Date date;
+Query OK, 0 rows affected (0.62 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table Booking drop No_of_Days ;
+Query OK, 0 rows affected (0.77 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table Booking add No_of_Days int;
+Query OK, 0 rows affected (0.80 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DELIMITER //
+mysql> DROP PROCEDURE IF EXISTS check_balance //
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> CREATE PROCEDURE check_balance
+    -> (IN v_cost INT, IN u_id VARCHAR(20))
+    -> BEGIN
+    -> DECLARE w_bal INT;
+    -> SET @w_bal = (SELECT Wallet FROM User WHERE User_ID = u_id);
+    -> IF @w_bal > v_cost THEN
+    -> SET @poss = 1;
+    -> ELSE
+    -> SET @poss = 0;
+    -> END IF;
+    -> END //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DROP TRIGGER IF EXISTS perf_pay //
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> CREATE TRIGGER perf_pay
+    -> BEFORE INSERT ON Payment
+    -> FOR EACH ROW
+    -> BEGIN
+    -> IF NEW.Method = 'Wallet' THEN
+    -> CALL check_balance(NEW.Amount, NEW.User_ID);
+    -> ELSE
+    -> SET @poss = 1;
+    -> END IF;
+    -> END //
+Query OK, 0 rows affected (0.50 sec)
+
+mysql> delimiter ;
+mysql> insert into Payment values('1', 'Devansh', NULL, NULL, 6000, 'Wallet', NULL);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> update Payment set Success = @poss where Pay_ID = 1;
+Query OK, 1 row affected (0.15 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Payment;
++--------+---------+---------+----------+--------+--------+---------+
+| Pay_ID | User_ID | Book_ID | Pay_Date | Amount | Method | Success |
++--------+---------+---------+----------+--------+--------+---------+
+| 1      | Devansh | NULL    | NULL     |   6000 | Wallet |       0 |
++--------+---------+---------+----------+--------+--------+---------+
+1 row in set (0.00 sec)
+
+mysql> insert into Payment values('2', 'Devansh', NULL, NULL, 3000, 'Wallet', NULL);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> update Payment set Success = @poss where Pay_ID = 2;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Payment;
++--------+---------+---------+----------+--------+--------+---------+
+| Pay_ID | User_ID | Book_ID | Pay_Date | Amount | Method | Success |
++--------+---------+---------+----------+--------+--------+---------+
+| 1      | Devansh | NULL    | NULL     |   6000 | Wallet |       0 |
+| 2      | Devansh | NULL    | NULL     |   3000 | Wallet |       1 |
++--------+---------+---------+----------+--------+--------+---------+
+2 rows in set (0.00 sec)
+
+mysql> insert into Payment values('3', 'Devansh', NULL, NULL, 6000, 'Cash', NULL);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> update Payment set Success = @poss where Pay_ID = 3;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Payment;
++--------+---------+---------+----------+--------+--------+---------+
+| Pay_ID | User_ID | Book_ID | Pay_Date | Amount | Method | Success |
++--------+---------+---------+----------+--------+--------+---------+
+| 1      | Devansh | NULL    | NULL     |   6000 | Wallet |       0 |
+| 2      | Devansh | NULL    | NULL     |   3000 | Wallet |       1 |
+| 3      | Devansh | NULL    | NULL     |   6000 | Cash   |       1 |
++--------+---------+---------+----------+--------+--------+---------+
+3 rows in set (0.00 sec)
+

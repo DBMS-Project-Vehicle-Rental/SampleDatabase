@@ -26,7 +26,8 @@ CREATE TABLE `Booking` (
   `Book_ID` varchar(10) NOT NULL,
   `User_ID` varchar(20) DEFAULT NULL,
   `Plate_No` varchar(10) DEFAULT NULL,
-  `Book_Date` date DEFAULT NULL,
+  `Start_Date` date DEFAULT NULL,
+  `End_Date` date DEFAULT NULL,
   `No_of_Days` int(11) DEFAULT NULL,
   PRIMARY KEY (`Book_ID`),
   KEY `User_ID` (`User_ID`),
@@ -72,6 +73,7 @@ CREATE TABLE `Employee` (
 
 LOCK TABLES `Employee` WRITE;
 /*!40000 ALTER TABLE `Employee` DISABLE KEYS */;
+INSERT INTO `Employee` VALUES ('Emp01','Ram','ram@email.com',8754863254,'Jaynagar','ramkapassword','BANKOR0002'),('Emp02','Shyam','shyam@email.com',7854896532,'KR Puram','shyamkapassword','BANMAR0001');
 /*!40000 ALTER TABLE `Employee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,7 +87,7 @@ DROP TABLE IF EXISTS `Garage`;
 CREATE TABLE `Garage` (
   `G_ID` varchar(10) NOT NULL,
   `G_Name` varchar(20) DEFAULT NULL,
-  `LOCATION` varchar(20) DEFAULT NULL,
+  `Location` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`G_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -96,6 +98,7 @@ CREATE TABLE `Garage` (
 
 LOCK TABLES `Garage` WRITE;
 /*!40000 ALTER TABLE `Garage` DISABLE KEYS */;
+INSERT INTO `Garage` VALUES ('BANKOR0002','Kormangala Garage','Kormangala'),('BANMAR0001','Marathalli Garage','Marathalli');
 /*!40000 ALTER TABLE `Garage` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,8 +131,33 @@ CREATE TABLE `Payment` (
 
 LOCK TABLES `Payment` WRITE;
 /*!40000 ALTER TABLE `Payment` DISABLE KEYS */;
+INSERT INTO `Payment` VALUES ('1','Devansh',NULL,NULL,6000,'Wallet',0),('2','Devansh',NULL,NULL,3000,'Wallet',1),('3','Devansh',NULL,NULL,6000,'Cash',1);
 /*!40000 ALTER TABLE `Payment` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`devansh`@`localhost`*/ /*!50003 TRIGGER perf_pay
+BEFORE INSERT ON Payment
+FOR EACH ROW
+BEGIN
+IF NEW.Method = 'Wallet' THEN
+CALL check_balance(NEW.Amount, NEW.User_ID);
+ELSE
+SET @poss = 1;
+END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `User`
@@ -145,6 +173,7 @@ CREATE TABLE `User` (
   `Phone_No` bigint(20) DEFAULT NULL,
   `Address` varchar(20) DEFAULT NULL,
   `Password` varchar(20) DEFAULT NULL,
+  `Wallet` int(11) DEFAULT NULL,
   PRIMARY KEY (`User_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -155,6 +184,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
+INSERT INTO `User` VALUES ('Ayush','Ayush Agarawal','ayush@email.com',9875425632,'Kormangala','ayushkapassword',3000),('Devansh','Devansh Sharma','devansh@email.com',9875546322,'Bellandur','devanshkapassword',5000);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,6 +214,7 @@ CREATE TABLE `VehicleDetails` (
 
 LOCK TABLES `VehicleDetails` WRITE;
 /*!40000 ALTER TABLE `VehicleDetails` DISABLE KEYS */;
+INSERT INTO `VehicleDetails` VALUES ('KA03FG4578','Pulsar 150','Silver','BANKOR0002'),('KA03NH2546','Swift','Red','BANMAR0001'),('KA04MK2566','Grand i10','Grey','BANKOR0002'),('KA04ML6822','Pulsar 150','Blue','BANKOR0002'),('KA05LK6986','Scorpio','Black','BANMAR0001'),('KA05MJ5795','Swift','Blue','BANMAR0001');
 /*!40000 ALTER TABLE `VehicleDetails` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,6 +232,7 @@ CREATE TABLE `Vehicles` (
   `Type` varchar(10) DEFAULT NULL,
   `Seats` int(11) DEFAULT NULL,
   `Quantity` int(11) DEFAULT NULL,
+  `Cost` int(11) DEFAULT NULL,
   PRIMARY KEY (`Model_Name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -211,6 +243,7 @@ CREATE TABLE `Vehicles` (
 
 LOCK TABLES `Vehicles` WRITE;
 /*!40000 ALTER TABLE `Vehicles` DISABLE KEYS */;
+INSERT INTO `Vehicles` VALUES ('Classic 500','Royal Enfield','Bike','Cruiser',1,0,2500),('Grand i10','Hyundai','Car','Hatchback',4,1,4500),('Pulsar 150','Bajaj','Bike','Standard',2,2,1500),('Scorpio','Mahindra','Car','SUV',8,1,6000),('Swift','Maruti Suzuki','Car','Hatchback',4,2,4000);
 /*!40000 ALTER TABLE `Vehicles` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -223,4 +256,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-02  0:24:14
+-- Dump completed on 2017-11-12 22:21:18
