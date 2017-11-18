@@ -23,18 +23,21 @@ DROP TABLE IF EXISTS `Booking`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Booking` (
-  `Book_ID` varchar(10) NOT NULL,
+  `Book_ID` int(11) NOT NULL AUTO_INCREMENT,
   `User_ID` varchar(20) DEFAULT NULL,
   `Plate_No` varchar(10) DEFAULT NULL,
   `Start_Date` date DEFAULT NULL,
   `End_Date` date DEFAULT NULL,
   `No_of_Days` int(11) DEFAULT NULL,
+  `Pay_ID` int(11) DEFAULT NULL,
   PRIMARY KEY (`Book_ID`),
   KEY `User_ID` (`User_ID`),
   KEY `Plate_No` (`Plate_No`),
+  KEY `Pay_ID` (`Pay_ID`),
   CONSTRAINT `Booking_ibfk_1` FOREIGN KEY (`User_ID`) REFERENCES `User` (`User_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `Booking_ibfk_2` FOREIGN KEY (`Plate_No`) REFERENCES `VehicleDetails` (`Plate_No`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `Booking_ibfk_2` FOREIGN KEY (`Plate_No`) REFERENCES `VehicleDetails` (`Plate_No`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `Booking_ibfk_3` FOREIGN KEY (`Pay_ID`) REFERENCES `Payment` (`Pay_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,6 +46,7 @@ CREATE TABLE `Booking` (
 
 LOCK TABLES `Booking` WRITE;
 /*!40000 ALTER TABLE `Booking` DISABLE KEYS */;
+INSERT INTO `Booking` VALUES (100,'devansh','KA04MK2566','2017-11-18','2017-11-28',-10,27),(101,'devansh','KA04MK2566','2017-11-08','2017-11-28',20,27),(102,'devansh','KA04MK2566','2017-11-08','2017-12-08',100,27),(103,'devansh','KA04MK2566','2017-11-08','2017-12-08',30,27),(104,'devansh','KA03NH2546','2017-11-29','2017-12-04',5,28),(105,'devansh','KA03FG4578','2017-11-18','2017-11-18',0,30);
 /*!40000 ALTER TABLE `Booking` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,19 +114,16 @@ DROP TABLE IF EXISTS `Payment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Payment` (
-  `Pay_ID` varchar(10) NOT NULL,
+  `Pay_ID` int(11) NOT NULL AUTO_INCREMENT,
   `User_ID` varchar(20) DEFAULT NULL,
-  `Book_ID` varchar(10) DEFAULT NULL,
   `Pay_Date` date DEFAULT NULL,
   `Amount` int(11) DEFAULT NULL,
   `Method` varchar(10) DEFAULT NULL,
   `Success` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`Pay_ID`),
   KEY `User_ID` (`User_ID`),
-  KEY `Book_ID` (`Book_ID`),
-  CONSTRAINT `Payment_ibfk_1` FOREIGN KEY (`User_ID`) REFERENCES `User` (`User_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `Payment_ibfk_2` FOREIGN KEY (`Book_ID`) REFERENCES `Booking` (`Book_ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `Payment_ibfk_1` FOREIGN KEY (`User_ID`) REFERENCES `User` (`User_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +132,7 @@ CREATE TABLE `Payment` (
 
 LOCK TABLES `Payment` WRITE;
 /*!40000 ALTER TABLE `Payment` DISABLE KEYS */;
-INSERT INTO `Payment` VALUES ('1','Devansh',NULL,NULL,6000,'Wallet',0),('2','Devansh',NULL,NULL,3000,'Wallet',1),('3','Devansh',NULL,NULL,6000,'Cash',1);
+INSERT INTO `Payment` VALUES (1,'devansh',NULL,6000,'Wallet',1),(2,'devansh',NULL,3000,'Wallet',1),(3,'devansh',NULL,6000,'Cash',1),(4,'ayush',NULL,10000000,'Credit',1),(5,'ayush','2017-11-17',10000000,'Credit',1),(10,'devansh','2017-11-17',4000,'Cash',1),(12,'devansh','2017-11-17',1500,'undefined',1),(13,'devansh','2017-11-17',1500,'undefined',1),(14,'devansh','2017-11-17',4500,'undefined',1),(15,'devansh','2017-11-17',4500,'undefined',1),(16,'devansh','2017-11-17',4000,'undefined',1),(17,'devansh','2017-11-17',4000,'undefined',1),(18,'devansh','2017-11-17',4000,'undefined',1),(19,'devansh','2017-11-17',4000,'undefined',1),(20,'devansh','2017-11-17',1500,'Cash',1),(21,'devansh','2017-11-17',1500,'Cash',1),(22,'devansh','2017-11-17',1500,'Cash',1),(23,'devansh','2017-11-17',1500,'Cash',1),(24,'devansh','2017-11-17',4000,'Cash',1),(25,'devansh','2017-11-17',6000,'Cash',1),(26,'devansh','2017-11-17',4500,'Cash',1),(27,'devansh','2017-11-17',6000,'Wallet',1),(28,'devansh','2017-11-18',4000,'Cash',1),(29,'devansh','2017-11-18',6000,'Wallet',1),(30,'devansh','2017-11-18',1500,'Credit',1);
 /*!40000 ALTER TABLE `Payment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -184,7 +185,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('Ayush','Ayush Agarawal','ayush@email.com',9875425632,'Kormangala','ayushkapassword',3000),('Devansh','Devansh Sharma','devansh@email.com',9875546322,'Bellandur','devanshkapassword',5000);
+INSERT INTO `User` VALUES ('ayush','Ayush Agarawal','ayush@email.com',9875425632,'Kormangala','123',3000),('devansh','Devansh Sharma','devansh@email.com',9875546322,'Bellandur','1',5000);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -256,4 +257,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-12 22:21:18
+-- Dump completed on 2017-11-18 11:20:33
